@@ -24,5 +24,5 @@ import Form from 'react-native-form'
 Now you can get the form value by calling `this.refs.example.getValues()`
 
 <br/>
-###License
+### License
 react-native-form is licensed under the [MIT license](LICENSE).
