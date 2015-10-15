@@ -8,10 +8,9 @@
     "url": "https://github.com/julianocomg/react-native-form.git"
   },
   "keywords": [
+    "react-component",
     "react-native",
-    "form",
-    "react",
-    "native",
+    "react native form",
     "android",
     "ios"
   ],
