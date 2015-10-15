@@ -15,7 +15,7 @@ Advantages:
 Just put how many react-native components (fields) you want inside `<Form>`, with the prop `name` defined. And that's it.
 
 ```javascript
-import Form from 'react-native-form'
+var Form = require('react-native-form')
 
 <Form ref="example">
   <TextInput name="lala" />
