@@ -1,9 +1,14 @@
 # react-native-form
-A simple react-native component to wrap your form fields and get their values with just one single method \o/
+A simple react-native component to wrap your form fields and get their values without attaching listeners everywhere.
+
+Advantages:
+- You'll avoid to track values by your own;
+- `<Form>` tracks all known components for you, doesn't matter how deep they're;
+- Exposes a simple API to retrieve the value.
 
 <br/>
-### How to install
-Install with `npm install react-native-form` and voilà!
+### How to install?
+`npm install react-native-form` and voilà!
 
 <br/>
 ### How to use?
