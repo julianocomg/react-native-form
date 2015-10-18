@@ -64,7 +64,7 @@ var Form = React.createClass({
    * @return {Array}
    */
   createFormFields: function(elements) {
-    return React.Children.map(elements, element => {
+    return React.Children.map(elements, function() {
       var fieldType = element.type.displayName;
       var fieldName = element.props.name;
       var allowedField = this.getAllowedFormFieldTypes()[fieldType];
@@ -73,7 +73,7 @@ var Form = React.createClass({
       var props = {};
 
       if (isValidField) {
-        props[allowedField.callbackProp] = (value) => {
+        props[allowedField.callbackProp] = function(value) {
           this.persistFieldValue(fieldName, value)
           var proxyCallback = element.props[allowedField.callbackProp]
 
@@ -84,7 +84,10 @@ var Form = React.createClass({
       }
 
       if (isValidField && !this.values[fieldName]) {
-        this.persistFieldValue(fieldName, (element.props[allowedField.defaultValueProp] || element.props.value));
+        this.persistFieldValue(
+          fieldName,
+          element.props[allowedField.defaultValueProp] || element.props.value
+        );
       }
 
       props.children = this.createFormFields(element.props.children);
