@@ -80,7 +80,7 @@ var Form = React.createClass({
           if (typeof proxyCallback === 'function') {
             proxyCallback(value)
           }
-        }
+        }.bind(this)
       }
 
       if (isValidField && !this.values[fieldName]) {
@@ -92,7 +92,7 @@ var Form = React.createClass({
 
       props.children = this.createFormFields(element.props.children);
       return React.cloneElement(element, props);
-    })
+    }.bind(this))
   },
 
   /**
