@@ -64,7 +64,7 @@ var Form = React.createClass({
    * @return {Array}
    */
   createFormFields: function(elements) {
-    return React.Children.map(elements, function() {
+    return React.Children.map(elements, function(element) {
       var fieldType = element.type.displayName;
       var fieldName = element.props.name;
       var allowedField = this.getAllowedFormFieldTypes()[fieldType];
