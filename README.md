@@ -5,6 +5,7 @@ Advantages:
 - You'll avoid to track values by your own;
 - `<Form>` tracks all known components for you, doesn't matter how deep they're;
 - Exposes a simple API to retrieve the value.
+- Compatible with [react-native-radio-buttons](https://github.com/ArnaudRinquin/react-native-radio-buttons)
 
 <br/>
 ### How to install?
@@ -24,6 +25,7 @@ var Form = require('react-native-form')
   <SliderIOS name="lolo" />
   <PickerIOS name="lulu" />
   <DatePickerIOS name="lululu" />
+  <RadioButtons name="lyly" />
 </Form>
 ```
 Now you can get the form value by calling `this.refs.example.getValues()`
