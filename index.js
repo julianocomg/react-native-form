@@ -55,7 +55,11 @@ var Form = React.createClass({
       'DatePickerIOS': {
         defaultValueProp: 'date',
         callbackProp: 'onDateChange'
-      }
+      },
+      'RadioButtons': {
+        defaultValueProp: 'selectedOption',
+        callbackProp: 'onSelection',
+      },
     };
   },
 
@@ -69,7 +73,7 @@ var Form = React.createClass({
         return element
       }
 
-      var fieldType = element.type.displayName;
+      var fieldType = element.type.displayName || element.type.name;
       var fieldName = element.props.name;
       var allowedField = this.getAllowedFormFieldTypes()[fieldType];
 
