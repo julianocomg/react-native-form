@@ -13,6 +13,15 @@ var Form = React.createClass({
   },
 
   /**
+   * @return {Object}
+   */
+  getDefaultProps: function() {
+    return {
+      customFields: {}
+    }
+  },
+
+  /**
    * @param {String} fieldName
    * @param {String} value
    */
@@ -56,10 +65,8 @@ var Form = React.createClass({
         defaultValueProp: 'date',
         callbackProp: 'onDateChange'
       },
-      'RadioButtons': {
-        defaultValueProp: 'selectedOption',
-        callbackProp: 'onSelection',
-      },
+
+      ...this.props.customFields
     };
   },
 
