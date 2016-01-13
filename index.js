@@ -41,32 +41,32 @@ var Form = React.createClass({
    */
   getAllowedFormFieldTypes: function() {
     return {
+      ...this.props.customFields,
+
       'TextInput': {
-        defaultValueProp: 'defaultValue',
+        defaultValue: '',
+        valueProp: 'defaultValue',
         callbackProp: 'onChangeText'
       },
-      'SwitchIOS': {
-        defaultValueProp: 'value',
-        callbackProp: 'onValueChange'
-      },
-      'SwitchAndroid': {
-        defaultValueProp: 'value',
+      'Switch': {
+        controlled: true,
+        valueProp: 'value',
         callbackProp: 'onValueChange'
       },
       'SliderIOS': {
-        defaultValueProp: 'value',
+        valueProp: 'value',
         callbackProp: 'onSlidingComplete'
       },
       'PickerIOS': {
-        defaultValueProp: 'selectedValue',
+        controlled: true,
+        valueProp: 'selectedValue',
         callbackProp: 'onValueChange'
       },
       'DatePickerIOS': {
-        defaultValueProp: 'date',
+        controlled: true,
+        valueProp: 'date',
         callbackProp: 'onDateChange'
-      },
-
-      ...this.props.customFields
+      }
     };
   },
 
@@ -80,29 +80,41 @@ var Form = React.createClass({
         return element
       }
 
-      var fieldType = element.type.displayName || element.type.name;
+      var fieldType = element.type.displayName;
       var fieldName = element.props.name;
       var allowedField = this.getAllowedFormFieldTypes()[fieldType];
 
       var isValidField = (allowedField && fieldName);
       var props = {};
 
-      if (isValidField) {
-        props[allowedField.callbackProp] = function(value) {
-          this.persistFieldValue(fieldName, value)
-          var proxyCallback = element.props[allowedField.callbackProp]
-
-          if (typeof proxyCallback === 'function') {
-            proxyCallback(value)
-          }
-        }.bind(this)
+      if (!isValidField) {
+        props.children = this.createFormFields(element.props.children);
+        return React.cloneElement(element, props);
       }
+      
+      props[allowedField.callbackProp] = function(value) {
+        this.persistFieldValue(fieldName, value)
+        if (allowedField.controlled) {
+          this.forceUpdate()
+        }
 
-      if (isValidField && !this.values[fieldName]) {
+        var proxyCallback = element.props[allowedField.callbackProp]
+
+        if (typeof proxyCallback === 'function') {
+          proxyCallback(value)
+        }
+      }.bind(this)
+      
+
+      if (!this.values[fieldName]) {
         this.persistFieldValue(
           fieldName,
-          element.props[allowedField.defaultValueProp] || element.props.value
+          (element.props[allowedField.valueProp] || element.props.value) || allowedField.defaultValue
         );
+      }
+
+      if (allowedField.controlled) {
+        props[allowedField.valueProp] = this.values[fieldName]
       }
 
       props.children = this.createFormFields(element.props.children);

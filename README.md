@@ -19,11 +19,10 @@ var Form = require('react-native-form')
 
 <Form ref="form">
   <TextInput name="lala" />
-  <SwitchAndroid name="lele" />
-  <SwitchIOS name="lili" />
-  <SliderIOS name="lolo" />
-  <PickerIOS name="lulu" />
-  <DatePickerIOS name="lululu" />
+  <Switch name="lele" />
+  <SliderIOS name="lili" />
+  <PickerIOS name="lolo" />
+  <DatePickerIOS name="lulu" />
 </Form>
 ```
 Now you can get the form value by calling `this.refs.form.getValues()`
@@ -35,7 +34,8 @@ Just pass a `customFields` prop. Check out this example using the [react-native-
 ```javascript
 var myCustomFields = {
   'RadioButtons': {
-    defaultValueProp: 'selectedOption',
+    controlled: true,
+    valueProp: 'selectedOption',
     callbackProp: 'onSelection',
   }
 }
