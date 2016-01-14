@@ -122,14 +122,6 @@ var Form = React.createClass({
     }.bind(this))
   },
 
-  /**
-   * @param  {Object} nextProps
-   * @return {Boolean}
-   */
-  shouldComponentUpdate: function(nextProps) {
-    return nextProps.children !== this.props.children;
-  },
-
   render: function() {
     return React.createElement(
       View,
