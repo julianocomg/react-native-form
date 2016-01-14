@@ -6,12 +6,14 @@ Advantages:
 - `<Form>` tracks all known components for you, doesn't matter how deep they're;
 - Exposes a simple API to retrieve the value.
 
-<br/>
+
 ## How to install?
+
 `npm install react-native-form` and voilà!
 
-<br/>
+
 ## How to use?
+
 Just put how many react-native components (fields) you want inside `<Form>`, with the prop `name` defined. And that's it.
 
 ```javascript
@@ -27,8 +29,9 @@ var Form = require('react-native-form')
 ```
 Now you can get the form value by calling `this.refs.form.getValues()`
 
-<br/>
+
 ## Do you want custom fields?
+
 Just pass a `customFields` prop. Check out this example using the [react-native-radio-buttons](https://github.com/ArnaudRinquin/react-native-radio-buttons) field:
 
 ```javascript
@@ -45,6 +48,7 @@ var myCustomFields = {
 </Form>
 ```
 
-<br/>
+
 ## License
+
 react-native-form is licensed under the [MIT license](LICENSE).
