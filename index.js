@@ -1,15 +1,15 @@
 /**
  * @author Juliano Castilho <julianocomg@gmail.com>
  */
-var React = require('react-native');
-var {View} = React;
+var React = require('react-native')
+var {View} = React
 
 var Form = React.createClass({
   /**
    * @constructor
    */
   componentWillMount: function() {
-    this.values = {};
+    this.values = {}
   },
 
   /**
@@ -26,14 +26,14 @@ var Form = React.createClass({
    * @param {String} value
    */
   persistFieldValue: function(fieldName, value) {
-    this.values[fieldName] = value;
+    this.values[fieldName] = value
   },
 
   /**
    * @return {Object}
    */
   getValues: function() {
-    return this.values;
+    return this.values
   },
 
   /**
@@ -67,7 +67,7 @@ var Form = React.createClass({
         valueProp: 'date',
         callbackProp: 'onDateChange'
       }
-    };
+    }
   },
 
   /**
@@ -80,16 +80,16 @@ var Form = React.createClass({
         return element
       }
 
-      var fieldType = element.type.displayName;
-      var fieldName = element.props.name;
-      var allowedField = this.getAllowedFormFieldTypes()[fieldType];
+      var fieldType = element.type.displayName
+      var fieldName = element.props.name
+      var allowedField = this.getAllowedFormFieldTypes()[fieldType]
 
-      var isValidField = (allowedField && fieldName);
-      var props = {};
+      var isValidField = (allowedField && fieldName)
+      var props = {}
 
       if (!isValidField) {
-        props.children = this.createFormFields(element.props.children);
-        return React.cloneElement(element, props);
+        props.children = this.createFormFields(element.props.children)
+        return React.cloneElement(element, props)
       }
       
       props[allowedField.callbackProp] = function(value) {
@@ -105,20 +105,19 @@ var Form = React.createClass({
         }
       }.bind(this)
       
-
       if (!this.values[fieldName]) {
         this.persistFieldValue(
           fieldName,
           (element.props[allowedField.valueProp] || element.props.value) || allowedField.defaultValue
-        );
+        )
       }
 
       if (allowedField.controlled) {
         props[allowedField.valueProp] = this.values[fieldName]
       }
 
-      props.children = this.createFormFields(element.props.children);
-      return React.cloneElement(element, props);
+      props.children = this.createFormFields(element.props.children)
+      return React.cloneElement(element, props)
     }.bind(this))
   },
 
@@ -127,8 +126,8 @@ var Form = React.createClass({
       View,
       this.props,
       this.createFormFields(this.props.children)
-    );
+    )
   }
 })
 
-module.exports = Form;
+module.exports = Form
