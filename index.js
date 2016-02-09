@@ -80,7 +80,7 @@ var Form = React.createClass({
         return element
       }
 
-      var fieldType = element.type.displayName
+      var fieldType = element.type.displayName || element.type.name
       var fieldName = element.props.name
       var allowedField = this.getAllowedFormFieldTypes()[fieldType]
 
