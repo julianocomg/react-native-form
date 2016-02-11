@@ -13,10 +13,11 @@ Just put how many react-native components (fields) you want inside `<Form>` with
 import Form from 'react-native-form'
 
 <Form ref="form">
-  <TextInput type="TextInput" name="input" />
+  <TextInput type="TextInput" name="inputs[]" />
   <Switch type="Switch" name="switch" />
   <SliderIOS type="SliderIOS" name="slider" />
-  <PickerIOS type="PickerIOS" name="picker" />
+  <Picker type="Picker" name="pickers[android]" />
+  <PickerIOS type="PickerIOS" name="pickers[ios]" />
   <DatePickerIOS type="DatePickerIOS" name="datePicker" />
 </Form>
 ```

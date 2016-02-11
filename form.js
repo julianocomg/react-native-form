@@ -1,31 +1,34 @@
 /**
  * @author Juliano Castilho <julianocomg@gmail.com>
  */
-import React, { Component, View } from 'react-native'
+import React, {Component, View} from 'react-native'
+import serialize from './serialize'
 
 class Form extends Component {
+  /**
+   * @param {Object} props
+   */
   constructor(props) {
     super(props)
-    this.values = {}
+
+    this.fields = []
   }
 
   /**
    * @private
-   * @param {String} fieldName
+   * @param {String} index
+   * @param {String} name
    * @param {String} value
    */
-  _persistFieldValue(
-    fieldName,
-    value
-  ) {
-    this.values[fieldName] = value
+  _persistFieldValue(index, name, value) {
+    this.fields[index] = {name, value}
   }
 
   /**
    * @returns {Object}
    */
   getValues() {
-    return this.values
+    return serialize(this.fields)
   }
 
   /**
@@ -34,6 +37,7 @@ class Form extends Component {
   _getAllowedFormFieldTypes() {
     return {
       ...this.props.customFields,
+
       'TextInput': {
         defaultValue: '',
         valueProp: 'defaultValue',
@@ -47,6 +51,11 @@ class Form extends Component {
       'SliderIOS': {
         valueProp: 'value',
         callbackProp: 'onSlidingComplete'
+      },
+      'Picker': {
+        controlled: true,
+        valueProp: 'selectedValue',
+        callbackProp: 'onValueChange'
       },
       'PickerIOS': {
         controlled: true,
@@ -64,7 +73,7 @@ class Form extends Component {
   _createFormFields(elements) {
     const allowedFieldTypes = this._getAllowedFormFieldTypes()
 
-    return React.Children.map(elements, element => {
+    return React.Children.map(elements, (element, fieldIndex) => {
       if (typeof element !== 'object') {
         return element
       }
@@ -84,6 +93,7 @@ class Form extends Component {
 
       props[allowedField.callbackProp] = value => {
         this._persistFieldValue(
+          fieldIndex,
           fieldName,
           value
         )
@@ -99,15 +109,16 @@ class Form extends Component {
         }
       }
 
-      if (! this.values[fieldName]) {
+      if (! this.fields[fieldIndex]) {
         this._persistFieldValue(
+          fieldIndex,
           fieldName,
           (element.props[allowedField.valueProp] || element.props.value) || allowedField.defaultValue
         )
       }
 
       if (allowedField.controlled) {
-        props[allowedField.valueProp] = this.values[fieldName]
+        props[allowedField.valueProp] = this.fields[fieldIndex].value
       }
 
       return React.cloneElement(element, {
@@ -129,6 +140,9 @@ class Form extends Component {
   }
 }
 
+/**
+ * @type {Object}
+ */
 Form.defaultProps = {
   customFields: {}
 }
