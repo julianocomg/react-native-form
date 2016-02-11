@@ -69,7 +69,7 @@ class Form extends Component {
         return element
       }
 
-      const fieldType = element.type.displayName || element.type.name
+      const fieldType = element.props.type
       const fieldName = element.props.name
       const allowedField = allowedFieldTypes[fieldType]
       const isValidField = (allowedField && fieldName)

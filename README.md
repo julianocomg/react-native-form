@@ -7,21 +7,23 @@ npm install --save react-native-form
 ```
 
 ## Usage
-Just put how many react-native components (fields) you want inside `<Form>` with the prop `name` defined. For example:
+Just put how many react-native components (fields) you want inside `<Form>` with the prop `name` as your key to retrieve the value, and the prop `type` to define the field type. For example:
 
 ```JS
 import Form from 'react-native-form'
 
 <Form ref="form">
-  <TextInput name="input" />
-  <Switch name="switch" />
-  <SliderIOS name="slider" />
-  <PickerIOS name="picker" />
-  <DatePickerIOS name="datePicker" />
+  <TextInput type="TextInput" name="input" />
+  <Switch type="Switch" name="switch" />
+  <SliderIOS type="SliderIOS" name="slider" />
+  <PickerIOS type="PickerIOS" name="picker" />
+  <DatePickerIOS type="DatePickerIOS" name="datePicker" />
 </Form>
 ```
 
-and then you can get all values by calling `this.refs.form.getValues()`.
+And then you can get all the values by calling `this.refs.form.getValues()`.
+
+*NOTE:* We need the prop `type` because react strips the component displayName when compiling for production.
 
 ## Do you want to use custom fields?
 
@@ -37,7 +39,7 @@ var customFields = {
 }
 
 <Form ref="form" customFields={customFields}>
-  <RadioButtons name="radioButtons" />
+  <RadioButtons type="RadioButtons" name="radioButtons" />
 </Form>
 ```
 
