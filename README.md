@@ -1,41 +1,34 @@
 # react-native-form
 A simple react-native component to wrap your form fields and get their values without attaching listeners everywhere.
 
-Advantages:
-- You'll avoid to track values by your own;
-- `<Form>` tracks all known components for you, doesn't matter how deep they're;
-- Exposes a simple API to retrieve the value.
+## Installation
+```
+npm install --save react-native-form
+```
 
+## Usage
+Just put how many react-native components (fields) you want inside `<Form>` with the prop `name` defined. For example:
 
-## How to install?
-
-`npm install react-native-form` and voilà!
-
-
-## How to use?
-
-Just put how many react-native components (fields) you want inside `<Form>`, with the prop `name` defined. And that's it.
-
-```javascript
-var Form = require('react-native-form')
+```JS
+import Form from 'react-native-form'
 
 <Form ref="form">
-  <TextInput name="lala" />
-  <Switch name="lele" />
-  <SliderIOS name="lili" />
-  <PickerIOS name="lolo" />
-  <DatePickerIOS name="lulu" />
+  <TextInput name="input" />
+  <Switch name="switch" />
+  <SliderIOS name="slider" />
+  <PickerIOS name="picker" />
+  <DatePickerIOS name="datePicker" />
 </Form>
 ```
-Now you can get the form value by calling `this.refs.form.getValues()`
 
+and then you can get all values by calling `this.refs.form.getValues()`.
 
-## Do you want custom fields?
+## Do you want to use custom fields?
 
 Just pass a `customFields` prop. Check out this example using the [react-native-radio-buttons](https://github.com/ArnaudRinquin/react-native-radio-buttons) field:
 
-```javascript
-var myCustomFields = {
+```JS
+var customFields = {
   'RadioButtons': {
     controlled: true,
     valueProp: 'selectedOption',
@@ -43,12 +36,10 @@ var myCustomFields = {
   }
 }
 
-<Form ref="form" customFields={myCustomFields}>
-  <RadioButtons name="lyly" />
+<Form ref="form" customFields={customFields}>
+  <RadioButtons name="radioButtons" />
 </Form>
 ```
 
-
 ## License
-
 react-native-form is licensed under the [MIT license](LICENSE).
