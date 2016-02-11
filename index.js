@@ -1,48 +1,39 @@
 /**
  * @author Juliano Castilho <julianocomg@gmail.com>
  */
-var React = require('react-native')
-var {View} = React
+import React, { Component, View } from 'react-native'
 
-var Form = React.createClass({
-  /**
-   * @constructor
-   */
-  componentWillMount: function() {
+class Form extends Component {
+  constructor(props) {
+    super(props)
     this.values = {}
-  },
+  }
 
   /**
-   * @return {Object}
-   */
-  getDefaultProps: function() {
-    return {
-      customFields: {}
-    }
-  },
-
-  /**
+   * @private
    * @param {String} fieldName
    * @param {String} value
    */
-  persistFieldValue: function(fieldName, value) {
+  _persistFieldValue(
+    fieldName,
+    value
+  ) {
     this.values[fieldName] = value
-  },
+  }
 
   /**
-   * @return {Object}
+   * @returns {Object}
    */
-  getValues: function() {
+  getValues() {
     return this.values
-  },
+  }
 
   /**
-   * @return {Object}
+   * @returns {Object}
    */
-  getAllowedFormFieldTypes: function() {
+  _getAllowedFormFieldTypes() {
     return {
       ...this.props.customFields,
-
       'TextInput': {
         defaultValue: '',
         valueProp: 'defaultValue',
@@ -68,45 +59,48 @@ var Form = React.createClass({
         callbackProp: 'onDateChange'
       }
     }
-  },
+  }
 
-  /**
-   * @param  {Array} elements
-   * @return {Array}
-   */
-  createFormFields: function(elements) {
-    return React.Children.map(elements, function(element) {
+  _createFormFields(elements) {
+    const allowedFieldTypes = this._getAllowedFormFieldTypes()
+
+    return React.Children.map(elements, element => {
       if (typeof element !== 'object') {
         return element
       }
 
-      var fieldType = element.type.displayName || element.type.name
-      var fieldName = element.props.name
-      var allowedField = this.getAllowedFormFieldTypes()[fieldType]
+      const fieldType = element.type.displayName || element.type.name
+      const fieldName = element.props.name
+      const allowedField = allowedFieldTypes[fieldType]
+      const isValidField = (allowedField && fieldName)
 
-      var isValidField = (allowedField && fieldName)
-      var props = {}
-
-      if (!isValidField) {
-        props.children = this.createFormFields(element.props.children)
-        return React.cloneElement(element, props)
+      if (! isValidField) {
+        return React.cloneElement(element, {
+          children: this._createFormFields(element.props.children)
+        })
       }
-      
-      props[allowedField.callbackProp] = function(value) {
-        this.persistFieldValue(fieldName, value)
+
+      const props = {}
+
+      props[allowedField.callbackProp] = value => {
+        this._persistFieldValue(
+          fieldName,
+          value
+        )
+
         if (allowedField.controlled) {
           this.forceUpdate()
         }
 
-        var proxyCallback = element.props[allowedField.callbackProp]
+        const proxyCallback = element.props[allowedField.callbackProp]
 
         if (typeof proxyCallback === 'function') {
           proxyCallback(value)
         }
-      }.bind(this)
-      
-      if (!this.values[fieldName]) {
-        this.persistFieldValue(
+      }
+
+      if (! this.values[fieldName]) {
+        this._persistFieldValue(
           fieldName,
           (element.props[allowedField.valueProp] || element.props.value) || allowedField.defaultValue
         )
@@ -116,18 +110,27 @@ var Form = React.createClass({
         props[allowedField.valueProp] = this.values[fieldName]
       }
 
-      props.children = this.createFormFields(element.props.children)
-      return React.cloneElement(element, props)
-    }.bind(this))
-  },
+      return React.cloneElement(element, {
+        ...props,
+        children: this._createFormFields(element.props.children)
+      })
+    })
+  }
 
-  render: function() {
-    return React.createElement(
-      View,
-      this.props,
-      this.createFormFields(this.props.children)
+  /**
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <View {...this.props}>
+        {this._createFormFields(this.props.children)}
+      </View>
     )
   }
-})
+}
 
-module.exports = Form
+Form.defaultProps = {
+  customFields: {}
+}
+
+export default Form
