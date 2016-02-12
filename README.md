@@ -7,30 +7,40 @@ npm install --save react-native-form
 ```
 
 ## Usage
-Just put how many react-native components (fields) you want inside `<Form>` with the prop `name` as your key to retrieve the value, and the prop `type` to define the field type. For example:
+Just put your fields inside the form, with 2 props: 
 
-```JS
+***`name`*** => Your key to retrieve the value (required)
+
+***`type`*** => The field type (required)
+
+
+```javascript
 import Form from 'react-native-form'
 
 <Form ref="form">
-  <TextInput type="TextInput" name="inputs[]" />
-  <Switch type="Switch" name="switch" />
-  <SliderIOS type="SliderIOS" name="slider" />
-  <Picker type="Picker" name="pickers[android]" />
-  <PickerIOS type="PickerIOS" name="pickers[ios]" />
-  <DatePickerIOS type="DatePickerIOS" name="datePicker" />
+  <View>
+    <View>
+      <TextInput type="TextInput" name="someName" /> // Yes, it doesn't matter how deep they are :)
+    </View>
+  </View>
+  
+  <Switch type="Switch" name="mySwitch" />
+  <SliderIOS type="SliderIOS" name="anotherSwitch" />
+  <DatePickerIOS type="DatePickerIOS" name="birthday" />
+  <Picker type="Picker" name="myPicker" />
+  
+  <PickerIOS type="PickerIOS" name="pickers[ios]" /> // Yes, we support form serialization, like the web
 </Form>
 ```
 
-And then you can get all the values by calling `this.refs.form.getValues()`.
-
-*NOTE:* We need the prop `type` because react strips the component displayName when compiling for production.
+And then you can call ***`this.refs.form.getValues()`***. 
+You will get an object with all the values serialized. Simple as that.
 
 ## Do you want to use custom fields?
 
-Just pass a `customFields` prop. Check out this example using the [react-native-radio-buttons](https://github.com/ArnaudRinquin/react-native-radio-buttons) field:
+Just pass the prop ***`customFields`*** to the form. Check out the example below using the [react-native-radio-buttons](https://github.com/ArnaudRinquin/react-native-radio-buttons) field:
 
-```JS
+```javascript
 var customFields = {
   'RadioButtons': {
     controlled: true,
