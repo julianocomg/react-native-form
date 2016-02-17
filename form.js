@@ -11,24 +11,30 @@ class Form extends Component {
   constructor(props) {
     super(props)
 
-    this.fields = []
+    this.fields = {}
   }
 
   /**
    * @private
-   * @param {String} index
+   * @param {String} id
    * @param {String} name
    * @param {String} value
    */
-  _persistFieldValue(index, name, value) {
-    this.fields[index] = {name, value}
+  _persistFieldValue(id, name, value) {
+    this.fields[id] = {name, value}
   }
 
   /**
    * @returns {Object}
    */
   getValues() {
-    return serialize(this.fields)
+    let fieldsArray = []
+
+    Object.keys(this.fields).map((id, index) => {
+      fieldsArray[index] = this.fields[id]
+    })
+
+    return serialize(fieldsArray)
   }
 
   /**
@@ -70,6 +76,9 @@ class Form extends Component {
     }
   }
 
+  /**
+   * @return [ReactComponent]
+   */
   _createFormFields(elements) {
     const allowedFieldTypes = this._getAllowedFormFieldTypes()
 
@@ -81,7 +90,8 @@ class Form extends Component {
       const fieldType = element.props.type
       const fieldName = element.props.name
       const allowedField = allowedFieldTypes[fieldType]
-      const isValidField = (allowedField && fieldName)
+      const isValidField = !!(allowedField && fieldName)
+      const fieldId = fieldName + element.key
 
       if (! isValidField) {
         return React.cloneElement(element, {
@@ -89,11 +99,11 @@ class Form extends Component {
         })
       }
 
-      const props = {}
+      let props = {}
 
       props[allowedField.callbackProp] = value => {
         this._persistFieldValue(
-          fieldIndex,
+          fieldId,
           fieldName,
           value
         )
@@ -109,16 +119,16 @@ class Form extends Component {
         }
       }
 
-      if (! this.fields[fieldIndex]) {
+      if (!this.fields[fieldId]) {
         this._persistFieldValue(
-          fieldIndex,
+          fieldId,
           fieldName,
           (element.props[allowedField.valueProp] || element.props.value) || allowedField.defaultValue
         )
       }
 
       if (allowedField.controlled) {
-        props[allowedField.valueProp] = this.fields[fieldIndex].value
+        props[allowedField.valueProp] = this.fields[fieldId].value
       }
 
       return React.cloneElement(element, {
@@ -129,7 +139,7 @@ class Form extends Component {
   }
 
   /**
-   * @returns {ReactElement}
+   * @returns {ReactComponent}
    */
   render() {
     return (

@@ -13,6 +13,8 @@ Just put your fields inside the form, with 2 props:
 
 ***`type`*** => The field type (required)
 
+***`key`*** => Required for fields with the same name
+
 
 ```javascript
 import Form from 'react-native-form'

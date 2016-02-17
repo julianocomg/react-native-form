@@ -1,6 +1,6 @@
 {
   "name": "react-native-form",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "A simple react-native component to wrap your form fields!",
   "main": "form.js",
   "repository": {
