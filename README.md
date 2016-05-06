@@ -22,13 +22,13 @@ import Form from 'react-native-form'
 <Form ref="form">
   <View>
     <View>
-      <TextInput type="TextInput" name="someName" /> // Yes, it doesn't matter how deep they are :)
+      <TextInput type="TextInput" name="myTextInput" /> // Yes, it doesn't matter how deep they are :)
     </View>
   </View>
   
   <Switch type="Switch" name="mySwitch" />
-  <SliderIOS type="SliderIOS" name="anotherSwitch" />
-  <DatePickerIOS type="DatePickerIOS" name="birthday" />
+  <Slider type="Slider" name="mySlider" />
+  <DatePickerIOS type="DatePickerIOS" name="myBirthday" />
   <Picker type="Picker" name="myPicker" />
   
   <PickerIOS type="PickerIOS" name="pickers[ios]" /> // Yes, we support form serialization, like the web

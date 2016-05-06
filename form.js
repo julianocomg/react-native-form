@@ -1,10 +1,11 @@
 /**
  * @author Juliano Castilho <julianocomg@gmail.com>
  */
-import React, {Component, View} from 'react-native'
+import React from 'react'
+import {View} from 'react-native'
 import serialize from './serialize'
 
-class Form extends Component {
+class Form extends React.Component {
   /**
    * @param {Object} props
    */
@@ -55,6 +56,10 @@ class Form extends Component {
         callbackProp: 'onValueChange'
       },
       'SliderIOS': {
+        valueProp: 'value',
+        callbackProp: 'onSlidingComplete'
+      },
+      'Slider': {
         valueProp: 'value',
         callbackProp: 'onSlidingComplete'
       },
