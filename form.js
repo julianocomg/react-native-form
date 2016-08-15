@@ -13,6 +13,7 @@ class Form extends React.Component {
     super(props)
 
     this.fields = {}
+    this.formFields = {};
   }
 
   /**
@@ -36,6 +37,34 @@ class Form extends React.Component {
     })
 
     return serialize(fieldsArray)
+  }
+
+  /**
+  * @private
+  * @param {String} id
+  * @param {String} name
+  * @param {String} ref
+  */
+  _persistFieldRef(id, name, value) {
+      this.formFields[id] = {name, value}
+  }
+
+  /**
+  * @returns {Object}
+  */
+  getRefs() {
+      let fieldsArray = []
+
+      Object.keys(this.formFields).map((id, index) => {
+          var tempRef = Object.assign({}, this.formFields[id])
+          var _refs = this.refs
+          // value 其实就是 ref 参数的名字 // value actually is 'ref'
+          tempRef.name = tempRef.value // 这里其实只用value // here just same as the value
+          tempRef.value = _refs[tempRef.value] // 这里获得对应的ref // here get the ref
+          fieldsArray[index] = tempRef
+      })
+
+      return serialize(fieldsArray)
   }
 
   /**
@@ -98,13 +127,28 @@ class Form extends React.Component {
       const isValidField = !!(allowedField && fieldName)
       const fieldId = fieldName + element.key
 
+      let props = {}
+
+      if (fieldName) {
+        // set refs
+        if (!this.formFields[fieldId]) {
+            this._persistFieldRef(
+              fieldId,
+              fieldName,
+              (element.ref || element.props.name) || fieldName
+            )
+        }
+
+        props.ref = this.formFields[fieldId].value;
+      };
+
+      // binding values changed
       if (! isValidField) {
         return React.cloneElement(element, {
+          ...props,
           children: this._createFormFields(element.props.children)
         })
       }
-
-      let props = {}
 
       props[allowedField.callbackProp] = value => {
         this._persistFieldValue(
