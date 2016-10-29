@@ -56,5 +56,16 @@ var customFields = {
 </Form>
 ```
 
+## Support for Accordion
+
+If you have form fields under an Accordion component, add:
+
+```javascript
+type="Accordion"
+```
+
+to the Accordion component to have Form include the Accordion children.
+
+
 ## License
 react-native-form is licensed under the [MIT license](LICENSE).
