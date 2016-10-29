@@ -144,10 +144,17 @@ class Form extends React.Component {
 
       // binding values changed
       if (! isValidField) {
-        return React.cloneElement(element, {
-          ...props,
-          children: this._createFormFields(element.props.children)
-        })
+        if (fieldType == 'Accordion') {
+          return React.cloneElement(element, {
+            ...props,
+            children: this._createFormFields(element.props.content)
+          })
+        } else {
+          return React.cloneElement(element, {
+            ...props,
+            children: this._createFormFields(element.props.children)
+          })
+        }
       }
 
       props[allowedField.callbackProp] = value => {
