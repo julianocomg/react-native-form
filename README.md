@@ -60,7 +60,9 @@ var customFields = {
 
 If you have form fields under an Accordion component, add:
 
-```type="Accordion"```
+```javascript
+type="Accordion"
+```
 
 to the Accordion component to have Form include the Accordion children.
 
