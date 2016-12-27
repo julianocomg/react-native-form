@@ -21,6 +21,7 @@
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 const brackets = /(\[[^\[\]]*\])/g
+const onlyDigits = /^\d+$/
 
 /**
  * @param  {Array} fields
@@ -97,16 +98,16 @@ function hashAssign(result, keys, value) {
 
   else {
     let string = between[1]
-    let index = parseInt(string, 10)
 
-    if (isNaN(index)) {
-      result = result || {}
-      result[string] = hashAssign(result[string], keys, value)
+    if (onlyDigits.test(string)) {
+      let index = parseInt(string, 10)
+      result = result || [];
+      result[index] = hashAssign(result[index], keys, value)
     }
 
     else {
-      result = result || [];
-      result[index] = hashAssign(result[index], keys, value)
+      result = result || {}
+      result[string] = hashAssign(result[string], keys, value)
     }
   }
 
