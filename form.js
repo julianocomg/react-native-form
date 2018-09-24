@@ -117,7 +117,7 @@ class Form extends React.Component {
     const allowedFieldTypes = this._getAllowedFormFieldTypes()
 
     return React.Children.map(elements, (element, fieldIndex) => {
-      if (typeof element !== 'object') {
+      if (typeof element !== 'object' || element === null) {
         return element
       }
 
