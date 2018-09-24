@@ -120,6 +120,7 @@ class Form extends React.Component {
       if (typeof element !== 'object') {
         return element
       }
+      console.log('element', element)
 
       const fieldType = element.props.type
       const fieldName = element.props.name
